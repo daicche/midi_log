@@ -29,11 +29,13 @@ end
 while true
   m = input.gets
   midi_data = m[0][:data]
-  if have_midi_signal?(midi_data) # && !on_key_up?(midi_data) && !sustain_pedal?(midi_data)
-    output = "#{m[0][:data]}\t#{m[0][:timestamp]}\t#{Time.new.to_s}"
-    puts(output)
-    `echo #{output} >> ./log/#{Time.now.strftime('%Y_%m_%d')}.tsv`
-
+  if have_midi_signal?(midi_data)
     Note.create(event: midi_data[0], pitch: midi_data[1], velocity: midi_data[2], detailed_timestamp: m[0][:timestamp])
+
+    if !on_key_up?(midi_data) && !sustain_pedal?(midi_data)
+      output = "#{m[0][:data]}\t#{m[0][:timestamp]}\t#{Time.new.to_s}"
+      puts(output)
+      `echo #{output} >> ./log/#{Time.now.strftime('%Y_%m_%d')}.tsv`
+    end
   end
 end
