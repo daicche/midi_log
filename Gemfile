@@ -8,3 +8,5 @@ gem 'activerecord'
 gem 'pry'
 gem 'unimidi'
 gem 'pry-byebug'
+
+gem 'groupdate'
