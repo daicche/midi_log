@@ -18,7 +18,7 @@ GEM
     byebug (9.0.6)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
-    ffi (1.9.14)
+    ffi (1.15.4)
     ffi-coremidi (0.3.8)
       ffi (~> 1.9, >= 1.9.6)
     groupdate (5.2.1)
@@ -61,4 +61,4 @@ DEPENDENCIES
   unimidi
 
 BUNDLED WITH
-   1.17.3
+   2.2.26
