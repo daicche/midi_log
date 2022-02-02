@@ -10,3 +10,4 @@ gem 'unimidi'
 gem 'pry-byebug'
 
 gem 'groupdate'
+gem 'highline'

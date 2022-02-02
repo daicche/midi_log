@@ -1,13 +1,13 @@
-require 'pry'
-require 'json'
-require 'unimidi'
-require 'time'
+require "pry"
+require "json"
+require "unimidi"
+require "time"
 require "rubygems"
 require "active_record"
 require "yaml"
 require "./app/models/note"
 
-config = YAML.load_file( './config/database.yml' )
+config = YAML.load_file("./config/database.yml")
 ActiveRecord::Base.establish_connection(config["db"])
 
 input = UniMIDI::Input.gets
@@ -28,14 +28,25 @@ end
 
 while true
   m = input.gets
+
+  if m.nil? || m[0].nil?
+    p m
+    next
+  end
+
   midi_data = m[0][:data]
   if have_midi_signal?(midi_data)
-    Note.create(event: midi_data[0], pitch: midi_data[1], velocity: midi_data[2], detailed_timestamp: m[0][:timestamp])
+    Note.create(
+      event: midi_data[0],
+      pitch: midi_data[1],
+      velocity: midi_data[2],
+      detailed_timestamp: m[0][:timestamp],
+    )
 
     if !on_key_up?(midi_data) && !sustain_pedal?(midi_data)
       output = "#{m[0][:data]}\t#{m[0][:timestamp]}\t#{Time.new.to_s}"
       puts(output)
-      `echo #{output} >> ./log/#{Time.now.strftime('%Y_%m_%d')}.tsv`
+      `echo #{output} >> ./log/#{Time.now.strftime("%Y_%m_%d")}.tsv`
     end
   end
 end
